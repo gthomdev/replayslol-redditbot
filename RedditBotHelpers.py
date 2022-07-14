@@ -1,9 +1,9 @@
 import re
 
 patterns = [
-    "(http)s?(://)(euw|na|oce|eune|br|jp|ru|tr)?(.op.gg/summoner)s?/(euw|na|oce|eune|br|jp|ru|tr)?(/userName=)?/.{3,16}",
-    "(https)s?(://)(u.gg/lol/profile/)(euw1|eune1|na1|tr1|br1|kr1|jp1|oce1|ru1)/.{3,16}(/overview)",
-    "(https)s?(://)(blitz.gg/lol/profile/)(euw1|eune1|na1|tr1|br1|kr1|jp1|oce1|ru1)/.{3,16}"
+    "https?://(?:euw|na|oce|eune|br|jp|ru|tr){1}.op.gg/summoners?/(euw|na|oce|eune|br|jp|ru|tr)?/(.{3,16})",
+    "https?://u.gg/lol/profile/(euw1|eune1|na1|tr1|br1|kr1|jp1|oce1|ru1)/(.{3,16})/(?:overview)?",
+    "https?://blitz.gg/lol/profile/(euw1|eune1|na1|tr1|br1|kr1|jp1|oce1|ru1)/(.{3,16})/?"
 ]
 
 

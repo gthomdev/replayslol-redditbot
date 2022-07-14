@@ -25,6 +25,7 @@ def main():
                 for link in soup.findAll('a', href=True):
                     if RedditBotHelpers.is_target_link_type(link.attrs['href']):
                         infile.write(link.attrs['href'] + "\n")
+                        break
 
 if __name__ == "__main__":
     main()
