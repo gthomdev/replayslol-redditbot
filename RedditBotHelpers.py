@@ -7,10 +7,20 @@ patterns = [
 ]
 
 
-def is_target_link_type(text):
+def get_matches_from_link(text):
     for pattern in patterns:
         regex = re.compile(pattern)
         match_outcome = regex.search(text)
         if match_outcome:
             return match_outcome
     return None
+
+
+def is_submission_id_present_in_list_of_dictionaries(submission_id, list_of_dictionaries):
+    for dictionary in list_of_dictionaries:
+        if ("submission_id", str(submission_id)) in dictionary.items():
+            return True
+    return False
+
+
+
