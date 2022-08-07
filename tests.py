@@ -23,11 +23,18 @@ class SubmissionDataObjectTests(unittest.TestCase):
     def setUp(self):
         self.data_object = [{'href': 'https://u.gg/lol/profile/na1/r3milo/overview', 'submission_id': 'wfj4lo'},
                             {'href': 'https://na.op.gg/summoners/na/imshmokinweed', 'submission_id': 'wfj4t2'}]
-        self.submission_id = 'wfj4t2'
+        self.present_submission_id = 'wfj4t2'
+        self.absent_submission_id = 'abcd123'
 
     def test_should_return_true_if_submission_id_present_in_dictionary_keys(self):
         self.assertTrue(
-            RedditBotHelpers.is_submission_id_present_in_list_of_dictionaries(self.submission_id, self.data_object))
+            RedditBotHelpers.is_submission_id_present_in_list_of_dictionaries(self.present_submission_id,
+                                                                              self.data_object))
+
+    def test_should_return_false_if_submission_id_not_present_in_dictionary_keys(self):
+        self.assertFalse(RedditBotHelpers.is_submission_id_present_in_list_of_dictionaries(self.absent_submission_id,
+                                                                                           self.data_object)
+                         )
 
 
 if __name__ == '__main__':
