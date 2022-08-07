@@ -1,0 +1,2 @@
+class SubmissionExistsException(Exception):
+    pass
