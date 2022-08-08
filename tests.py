@@ -1,6 +1,7 @@
 import unittest
 import RedditBotHelpers
 import json
+from Errors import InvalidOperationException
 
 
 class LinkValidatorTests(unittest.TestCase):
@@ -23,6 +24,7 @@ class SubmissionDataObjectTests(unittest.TestCase):
     def setUp(self):
         self.data_object = [{'href': 'https://u.gg/lol/profile/na1/r3milo/overview', 'submission_id': 'wfj4lo'},
                             {'href': 'https://na.op.gg/summoners/na/imshmokinweed', 'submission_id': 'wfj4t2'}]
+        self.empty_data_object = []
         self.present_submission_id = 'wfj4t2'
         self.absent_submission_id = 'abcd123'
 
@@ -35,6 +37,11 @@ class SubmissionDataObjectTests(unittest.TestCase):
         self.assertFalse(RedditBotHelpers.is_submission_id_present_in_list_of_dictionaries(self.absent_submission_id,
                                                                                            self.data_object)
                          )
+
+    def test_should_throw_invalidoperationexception_if_collection_is_empty(self):
+        with self.assertRaises(InvalidOperationException):
+            RedditBotHelpers.is_submission_id_present_in_list_of_dictionaries(self.present_submission_id,
+                                                                              self.empty_data_object)
 
 
 if __name__ == '__main__':
