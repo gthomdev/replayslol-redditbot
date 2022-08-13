@@ -5,8 +5,8 @@ from time import sleep
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from Errors import SubmissionExistsException
-import RedditBotHelpers
-import Errors
+from Helpers import get_matches_from_link, is_submission_id_present_in_list_of_dictionaries
+
 
 def main():
     load_dotenv()
@@ -21,28 +21,28 @@ def main():
         password=os.environ.get('REDDIT_PASSWORD')
     )
 
-    path = "/Comments.json"
+    path = "../../Comments.json"
     if os.path.exists(path):
-        with open("Comments.json", "r") as jsonfile:
-            data_object = json.load(jsonfile)
+        with open("../../Comments.json", "r") as jsonfile:
+            scraped_submissions = json.load(jsonfile)
     else:
-        data_object = []
+        scraped_submissions = []
     while True:
         try:
             for submission in reddit.subreddit(target_subreddit).new(limit=target_submission_count):
                 if hasattr(submission, "selftext_html"):
                     soup = BeautifulSoup(submission.selftext_html, 'html.parser')
                     for link in soup.findAll('a', href=True):
-                        if RedditBotHelpers.get_matches_from_link(link.attrs['href']):
-                            if RedditBotHelpers.is_submission_id_present_in_list_of_dictionaries(str(submission.id),
-                                                                                                 data_object):
+                        if get_matches_from_link(link.attrs['href']):
+                            if is_submission_id_present_in_list_of_dictionaries(str(submission.id),
+                                                                                scraped_submissions):
                                 raise SubmissionExistsException
                             data = {"href": link.attrs["href"], "submission_id": str(submission.id)}
                             print(str(data["href"] + " has not already been scraped, continuing"))
-                            data_object.append(data)
+                            scraped_submissions.append(data)
                             print("data appended")
-                            with open("Comments.json", "w") as jsonfile:
-                                json.dump(data_object, jsonfile, indent=4)
+                            with open("../../Comments.json", "w") as jsonfile:
+                                json.dump(scraped_submissions, jsonfile, indent=4)
                             print("json dumped")
                             break
         except SubmissionExistsException:
@@ -55,6 +55,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-# SCOPE CREEP
-# Also raise an error if the submission is > 12 hours
