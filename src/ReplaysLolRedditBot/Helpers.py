@@ -1,5 +1,5 @@
 import re
-from Errors import InvalidOperationException
+from ReplaysLolRedditBot.Errors import InvalidOperationException
 
 patterns = [
     "https?://(?:euw|na|oce|eune|br|jp|ru|tr){1}.op.gg/summoners?/(euw|na|oce|eune|br|jp|ru|tr)?/(.{3,16})",

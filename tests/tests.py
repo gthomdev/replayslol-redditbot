@@ -1,12 +1,12 @@
 import pytest
 import json
-from Errors import InvalidOperationException
-from RedditBotHelpers import *
+from ReplaysLolRedditBot.Helpers import *
+from ReplaysLolRedditBot.Errors import *
 
 
 @pytest.fixture
 def load_json_config():
-    with open("test_cases.json", "r") as config:
+    with open("tests/test_cases.json", "r") as config:
         return json.load(config)
 
 
