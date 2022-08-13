@@ -1,12 +1,15 @@
 import pytest
 import json
-from ReplaysLolRedditBot.Helpers import *
-from ReplaysLolRedditBot.Errors import *
+import os
+from ReplaysLolRedditBot.Helpers import get_matches_from_link, is_submission_id_present_in_list_of_dictionaries
+from ReplaysLolRedditBot.Errors import InvalidOperationException
 
 
 @pytest.fixture
 def load_json_config():
-    with open("tests/test_cases.json", "r") as config:
+    # os.path.join necessary because of different working dirs of packages calling this file, see
+    # https://stackoverflow.com/questions/44652995/python-tox-no-such-file-or-directory-error
+    with open(os.path.join(os.path.dirname(__file__), "test_cases.json"), "r") as config:
         return json.load(config)
 
 

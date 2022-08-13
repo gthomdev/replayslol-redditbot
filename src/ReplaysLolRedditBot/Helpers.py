@@ -24,6 +24,3 @@ def is_submission_id_present_in_list_of_dictionaries(submission_id, list_of_dict
         if ("submission_id", str(submission_id)) in dictionary.items():
             return True
     return False
-
-
-

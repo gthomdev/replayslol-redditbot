@@ -5,7 +5,7 @@ from time import sleep
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from Errors import SubmissionExistsException
-from Helpers import *
+from Helpers import get_matches_from_link, is_submission_id_present_in_list_of_dictionaries
 
 
 def main():
