@@ -3,6 +3,8 @@
 Find comments that contain an op.gg link on /r/SummonerSchool, post the data to Replays.lol API (which will record a video of their last game and host it on Replays.lol)
 Poll a separate API which will provide a response telling it when to post a comment (schema?)
 
+![Tests](https://github.com/gthomdev/replayslol-redditbot/actions/workflows/tests.yml/badge.svg)
+
 ## Basic Process
 
 * Iterate over a number of posts in a subreddit, extract links from post bodies and validate them against a list of
