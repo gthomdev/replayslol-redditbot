@@ -1,4 +1,5 @@
 import re
+
 from ReplaysLolRedditBot.Errors import InvalidOperationException
 
 patterns = [
