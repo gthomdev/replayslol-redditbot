@@ -1,26 +1,19 @@
-import praw
-import os
 import json
 from time import sleep
+
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
+
 from Errors import SubmissionExistsException
-from Helpers import get_matches_from_link, is_submission_id_present_in_list_of_dictionaries
+from Helpers import *
 
 
 def main():
     load_dotenv()
-
-    target_subreddit = 'Summonerschool'
-    target_submission_count = 4000
-    reddit = praw.Reddit(
-        user_agent="testbot",
-        client_id=os.environ.get('REDDIT_CLIENT_ID'),
-        client_secret=os.environ.get('REDDIT_CLIENT_SECRET'),
-        username=os.environ.get('REDDIT_USERNAME'),
-        password=os.environ.get('REDDIT_PASSWORD')
-    )
-
+    configuration = load_config_from_local_directory("config.yaml")
+    target_subreddit = configuration['client']['target-subreddit']
+    submission_limit = configuration['client']['submission-count']
+    reddit = get_praw_client_from_config(configuration)
     path = "../../Comments.json"
     if os.path.exists(path):
         with open("../../Comments.json", "r") as jsonfile:
@@ -29,8 +22,8 @@ def main():
         scraped_submissions = []
     while True:
         try:
-            for submission in reddit.subreddit(target_subreddit).new(limit=target_submission_count):
-                if hasattr(submission, "selftext_html"):
+            for submission in reddit.subreddit(target_subreddit).new(limit=submission_limit):
+                if hasattr(submission, 'selftext_html') and submission.selftext_html is not None:
                     soup = BeautifulSoup(submission.selftext_html, 'html.parser')
                     for link in soup.findAll('a', href=True):
                         if get_matches_from_link(link.attrs['href']):
@@ -47,8 +40,8 @@ def main():
                             break
         except SubmissionExistsException:
             print("Submission has already been registered")
-        except Exception as e:
-            print(e)
+        except Exception:
+            raise
         finally:
             sleep(600)
 
