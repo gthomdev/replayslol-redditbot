@@ -1,11 +1,11 @@
 import json
 from time import sleep
-
+import os
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
-
 from Errors import SubmissionExistsException
-from Helpers import *
+from Helpers import load_config_from_local_directory, get_praw_client_from_config, get_matches_from_link, \
+    is_submission_id_present_in_list_of_dictionaries
 
 
 def main():
