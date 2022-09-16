@@ -1,0 +1,5 @@
+---
+client:
+  target-subreddit: "leagueoflegends"
+  submission-count: 4000
+  user-agent: "replays-lol-reddit-client"

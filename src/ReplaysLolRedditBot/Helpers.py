@@ -1,4 +1,8 @@
+import os
 import re
+
+import praw
+import yaml
 
 patterns = [
     "https?://(?:euw|na|oce|eune|br|jp|ru|tr){1}.op.gg/summoners?/(euw|na|oce|eune|br|jp|ru|tr)?/(.{3,16})",
@@ -21,3 +25,19 @@ def is_submission_id_present_in_list_of_dictionaries(submission_id, list_of_dict
         if ("submission_id", str(submission_id)) in dictionary.items():
             return True
     return False
+
+
+def get_praw_client_from_config(config):
+    return praw.Reddit(
+        user_agent=config['client']['user-agent'],
+        client_id=os.environ.get('REDDIT_CLIENT_ID'),
+        client_secret=os.environ.get('REDDIT_CLIENT_SECRET'),
+        username=os.environ.get('REDDIT_USERNAME'),
+        password=os.environ.get('REDDIT_PASSWORD')
+    )
+
+
+def load_config_from_local_directory(filename):
+    local_directory = os.getcwd()
+    configuration = yaml.safe_load(open(os.path.join(local_directory, filename)))
+    return configuration
