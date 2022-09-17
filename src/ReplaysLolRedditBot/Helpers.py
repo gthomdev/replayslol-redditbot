@@ -1,8 +1,9 @@
 import os
 import re
-
+import logging
 import praw
 import yaml
+from datetime import datetime
 
 patterns = [
     "https?://(?:euw|na|oce|eune|br|jp|ru|tr){1}.op.gg/summoners?/(euw|na|oce|eune|br|jp|ru|tr)?/(.{3,16})",
@@ -41,3 +42,14 @@ def load_config_from_local_directory(filename):
     local_directory = os.getcwd()
     configuration = yaml.safe_load(open(os.path.join(local_directory, filename)))
     return configuration
+
+
+def configure_logger():
+    environment = os.environ.get('ENVIRONMENT')
+    if environment == "development":
+        logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
+    else:
+        date = datetime.now().strftime("%Y-%m-%d-%I-%M-%S")
+        path = os.getcwd()
+        logging.basicConfig(filename=f'{path}/logs/{date}.log', format='%(asctime)s - %(message)s',
+                            level=logging.INFO, datefmt="%Y-%m-%d-%I-%M-%S %z")

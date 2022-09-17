@@ -1,22 +1,25 @@
 import json
 from time import sleep
 import os
+import logging
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from Errors import SubmissionExistsException
 from Helpers import load_config_from_local_directory, get_praw_client_from_config, get_matches_from_link, \
-    is_submission_id_present_in_list_of_dictionaries
+    is_submission_id_present_in_list_of_dictionaries, configure_logger
 
 
 def main():
+    # Load config
     load_dotenv()
     configuration = load_config_from_local_directory("config.yaml")
     target_subreddit = configuration['client']['target-subreddit']
     submission_limit = configuration['client']['submission-count']
+    configure_logger()
     reddit = get_praw_client_from_config(configuration)
     path = "../../Comments.json"
     if os.path.exists(path):
-        with open("../../Comments.json", "r") as jsonfile:
+        with open(path, "r") as jsonfile:
             scraped_submissions = json.load(jsonfile)
     else:
         scraped_submissions = []
@@ -31,19 +34,19 @@ def main():
                                                                                 scraped_submissions):
                                 raise SubmissionExistsException
                             data = {"href": link.attrs["href"], "submission_id": str(submission.id)}
-                            print(str(data["href"] + " has not already been scraped, continuing"))
+                            logging.info(str(data["href"] + " has not already been scraped, continuing"))
                             scraped_submissions.append(data)
-                            print("data appended")
-                            with open("../../Comments.json", "w") as jsonfile:
+                            logging.info(str(data["href"] + " appended"))
+                            with open(path, "w") as jsonfile:
                                 json.dump(scraped_submissions, jsonfile, indent=4)
-                            print("json dumped")
+                            logging.info("Submission appended to Comments.json")
                             break
         except SubmissionExistsException:
-            print("Submission has already been registered")
+            logging.info("Submission has already been registered")
         except Exception:
             raise
         finally:
-            sleep(600)
+            sleep(10)
 
 
 if __name__ == "__main__":
