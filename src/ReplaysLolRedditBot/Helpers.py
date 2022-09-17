@@ -53,3 +53,7 @@ def configure_logger():
         path = os.getcwd()
         logging.basicConfig(filename=f'{path}/logs/{date}.log', format='%(asctime)s - %(message)s',
                             level=logging.INFO, datefmt="%Y-%m-%d-%I-%M-%S %z")
+
+
+def get_submission_file_path():
+    return os.path.join(os.getcwd(), "submissions.json")
