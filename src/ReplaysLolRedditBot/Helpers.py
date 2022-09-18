@@ -2,6 +2,7 @@ import os
 import re
 import logging
 import praw
+import json
 import yaml
 from datetime import datetime
 
@@ -57,3 +58,12 @@ def configure_logger():
 
 def get_submission_file_path():
     return os.path.join(os.getcwd(), "submissions.json")
+
+
+def initialise_submissions(submission_file_path):
+    if os.path.exists(submission_file_path):
+        with open(submission_file_path, "r") as jsonfile:
+            scraped_submissions = json.load(jsonfile)
+    else:
+        scraped_submissions = []
+    return scraped_submissions
