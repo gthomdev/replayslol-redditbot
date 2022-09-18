@@ -29,9 +29,10 @@ def is_submission_id_present_in_list_of_dictionaries(submission_id, list_of_dict
     return False
 
 
-def get_praw_client_from_config(config):
+def get_praw_client_from_config():
+    configuration = load_config(os.path.join(os.getcwd(), "config.yaml"))
     return praw.Reddit(
-        user_agent=config['client']['user-agent'],
+        user_agent=configuration['client']['user-agent'],
         client_id=os.environ.get('REDDIT_CLIENT_ID'),
         client_secret=os.environ.get('REDDIT_CLIENT_SECRET'),
         username=os.environ.get('REDDIT_USERNAME'),
@@ -39,9 +40,8 @@ def get_praw_client_from_config(config):
     )
 
 
-def load_config_from_local_directory(filename):
-    local_directory = os.getcwd()
-    configuration = yaml.safe_load(open(os.path.join(local_directory, filename)))
+def load_config(file_path):
+    configuration = yaml.safe_load(open(file_path))
     return configuration
 
 
@@ -67,3 +67,10 @@ def initialise_submissions(submission_file_path):
     else:
         scraped_submissions = []
     return scraped_submissions
+
+
+def get_reddit_configurations():
+    reddit_config_directory = os.path.join(os.getcwd(), "config.yaml")
+    configuration = load_config(reddit_config_directory)
+    return (configuration['client']['target-subreddit'], configuration['client']['submission-limit'],
+            configuration['client']['user-agent'])
