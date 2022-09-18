@@ -1,12 +1,11 @@
 import json
 from time import sleep
-import os
 import logging
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from Errors import SubmissionExistsException
 from Helpers import load_config_from_local_directory, get_praw_client_from_config, get_matches_from_link, \
-    is_submission_id_present_in_list_of_dictionaries, configure_logger
+    is_submission_id_present_in_list_of_dictionaries, configure_logger, get_submission_file_path, initialise_submissions
 
 
 def main():
@@ -17,12 +16,8 @@ def main():
     submission_limit = configuration['client']['submission-count']
     configure_logger()
     reddit = get_praw_client_from_config(configuration)
-    path = "../../Comments.json"
-    if os.path.exists(path):
-        with open(path, "r") as jsonfile:
-            scraped_submissions = json.load(jsonfile)
-    else:
-        scraped_submissions = []
+    submission_file_path = get_submission_file_path()
+    scraped_submissions = initialise_submissions(submission_file_path)
     while True:
         try:
             for submission in reddit.subreddit(target_subreddit).new(limit=submission_limit):
@@ -37,7 +32,7 @@ def main():
                             logging.info(str(data["href"] + " has not already been scraped, continuing"))
                             scraped_submissions.append(data)
                             logging.info(str(data["href"] + " appended"))
-                            with open(path, "w") as jsonfile:
+                            with open(submission_file_path, "w") as jsonfile:
                                 json.dump(scraped_submissions, jsonfile, indent=4)
                             logging.info("Submission appended to Comments.json")
                             break
