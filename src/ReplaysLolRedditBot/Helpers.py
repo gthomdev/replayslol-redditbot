@@ -85,6 +85,7 @@ def initialise_application():
 
 
 def get_links_for_subreddit(reddit, scraped_submissions, submission_file_path, submission_limit, target_subreddit):
+    configure_logger()
     for submission in reddit.subreddit(target_subreddit).new(limit=submission_limit):
         if hasattr(submission, 'selftext_html') and submission.selftext_html is not None:
             soup = BeautifulSoup(submission.selftext_html, 'html.parser')
