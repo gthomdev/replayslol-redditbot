@@ -7,7 +7,7 @@ from Helpers import get_praw_client_from_config, get_submission_file_path, \
 
 def main():
     initialise_application()
-    target_subreddit, submission_limit, user_agent = get_reddit_configurations()
+    target_subreddit, submission_limit, user_agent, scan_interval = get_reddit_configurations()
     reddit = get_praw_client_from_config()
     submission_file_path = get_submission_file_path()
     scraped_submissions = initialise_submissions(submission_file_path)
@@ -20,7 +20,7 @@ def main():
         except Exception:
             raise
         finally:
-            sleep(10)
+            sleep(scan_interval)
 
 
 if __name__ == "__main__":

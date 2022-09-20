@@ -3,3 +3,4 @@ client:
   target-subreddit: "leagueoflegends"
   submission-limit: 4000
   user-agent: "replays-lol-reddit-client"
+  scan-interval: 60
