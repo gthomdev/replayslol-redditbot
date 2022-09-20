@@ -1,6 +1,6 @@
 from time import sleep
 import logging
-from Errors import SubmissionExistsException
+from ReplaysLolRedditBot.Errors import SubmissionExistsException
 from Helpers import get_praw_client_from_config, get_submission_file_path, \
     initialise_submissions, get_reddit_configurations, initialise_application, get_links_for_subreddit
 
@@ -20,7 +20,7 @@ def main():
         except Exception:
             raise
         finally:
-            sleep(600)
+            sleep(10)
 
 
 if __name__ == "__main__":
