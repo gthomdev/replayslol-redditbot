@@ -76,7 +76,7 @@ def get_reddit_configurations():
     reddit_config_directory = os.path.join(os.getcwd(), "config.yaml")
     configuration = load_config(reddit_config_directory)
     return (configuration['client']['target-subreddit'], configuration['client']['submission-limit'],
-            configuration['client']['user-agent'], configuration['client']['scan-interval'])
+            configuration['client']['user-agent'], configuration['application']['scan-interval'])
 
 
 def initialise_application():
