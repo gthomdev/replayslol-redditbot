@@ -3,7 +3,8 @@ import os
 
 import pytest
 
-from ReplaysLolRedditBot.Helpers import get_matches_from_link, is_submission_id_present_in_list_of_dictionaries
+from ReplaysLolRedditBot.Helpers import get_matches_from_link, is_submission_id_present_in_list_of_dictionaries, \
+    initialise_submissions
 
 
 @pytest.fixture
@@ -52,3 +53,7 @@ def test_should_return_true_if_submission_id_present_in_dictionary_keys(get_pres
 
 def test_should_return_false_if_submission_id_not_present_in_dictionary_keys(get_absent_submission_id, get_data_object):
     assert is_submission_id_present_in_list_of_dictionaries(get_absent_submission_id, get_data_object) is False
+
+
+def test_should_return_empty_array_if_file_doesnt_exist():
+    assert initialise_submissions("nonexistentfile.nerf") == []
