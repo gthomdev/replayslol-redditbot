@@ -1,7 +1,7 @@
 from time import sleep
 import logging
 from ReplaysLolRedditBot.Errors import SubmissionExistsException
-from Helpers import get_praw_client_from_config, get_submission_file_path, \
+from ReplaysLolRedditBot.Helpers import get_praw_client_from_config, get_submission_file_path, \
     initialise_submissions, get_reddit_configurations, initialise_application, get_links_for_subreddit
 
 
