@@ -2,7 +2,6 @@ import json
 import os
 
 import pytest
-from ReplaysLolRedditBot.Errors import SubmissionExistsException
 from ReplaysLolRedditBot.Helpers import get_matches_from_link, is_submission_id_present_in_list_of_dictionaries, \
     initialise_submissions
 
