@@ -53,10 +53,23 @@ def configure_logger():
     if environment == "development":
         logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
     else:
-        date = datetime.now().strftime("%Y-%m-%d-%I-%M-%S")
-        path = os.getcwd()
-        logging.basicConfig(filename=f'{path}/logs/{date}.log', format='%(asctime)s - %(message)s',
+        create_logging_directory_if_not_exists()
+        logging.basicConfig(filename=get_logging_filepath(), format='%(asctime)s - %(message)s',
                             level=logging.INFO, datefmt="%Y-%m-%d-%I-%M-%S %z")
+
+
+def create_logging_directory_if_not_exists():
+    if not os.path.exists(get_logging_directory()):
+        os.makedirs(get_logging_directory())
+
+
+def get_logging_filepath():
+    date = datetime.now().strftime("%Y-%m-%d-%I-%M-%S")
+    return os.path.join(os.getcwd(), "logs", f"{date}.log")
+
+
+def get_logging_directory():
+    return os.path.join(os.getcwd(), "logs")
 
 
 def get_submission_file_path():
@@ -64,12 +77,14 @@ def get_submission_file_path():
 
 
 def initialise_submissions(submission_file_path):
-    if os.path.exists(submission_file_path):
-        with open(submission_file_path, "r") as jsonfile:
-            scraped_submissions = json.load(jsonfile)
+    if file_exists(submission_file_path):
+        if file_is_empty(submission_file_path):
+            return []
+        else:
+            with open(submission_file_path, "r") as jsonfile:
+                return json.load(jsonfile)
     else:
-        scraped_submissions = []
-    return scraped_submissions
+        return []
 
 
 def get_reddit_configurations():
@@ -102,3 +117,11 @@ def get_links_for_subreddit(reddit, scraped_submissions, submission_file_path, s
                         json.dump(scraped_submissions, jsonfile, indent=4)
                     logging.info("Submission appended to Comments.json")
                     break
+
+
+def file_exists(file_path):
+    return os.path.exists(file_path)
+
+
+def file_is_empty(file_path):
+    return os.stat(file_path).st_size == 0
