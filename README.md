@@ -62,3 +62,9 @@ https://blitz.gg/lol/profile/euw1/:Name
 ``` html
 https://na.op.gg/summoners/na/:Name
 ```
+
+### Future Work
+
+* Add support for other patterns
+* Add support for other responses
+ 
