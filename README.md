@@ -38,6 +38,7 @@ the [PRAW](https://praw.readthedocs.io/en/latest/) library.
 | Storage of credentials                                   | Handled by .env file, not stored in plain text                   |
 | The bot could be used to spam the subreddit              | The bot will only respond to comments that match a given pattern |
 | The bot could be used to spam the replays.lol API        | The bot will only respond to comments that match a given pattern |
+| The bot could respond to users who do not want it to     | Implement blacklist?                                             |
 
 ## Hosting
 
