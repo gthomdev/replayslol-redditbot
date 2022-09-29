@@ -68,4 +68,6 @@ https://na.op.gg/summoners/na/:Name
 
 * Add support for other patterns
 * Add support for other responses
- 
+* Determine request/response schema for ReplaysLolAPI
+* Create endpoint to carry out the replay recording
+* Host replay recording
