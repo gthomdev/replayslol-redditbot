@@ -68,4 +68,4 @@ https://na.op.gg/summoners/na/:Name
 
 * Add support for other patterns
 * Add support for other responses
- 
+* Add support for mobalytics.gg, earlyGame, and other sites
