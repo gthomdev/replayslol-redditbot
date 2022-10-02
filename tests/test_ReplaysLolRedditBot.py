@@ -60,3 +60,7 @@ def test_initialise_submissions_should_return_empty_array_if_file_doesnt_exist()
 
 def test_initialise_submissions_should_return_empty_array_if_file_is_empty():
     assert initialise_submissions("emptyfile.txt") == []
+
+
+def test_initialise_submissions_should_return_array_if_file_exists_and_is_not_empty(get_data_object):
+    assert initialise_submissions(os.path.join(os.path.dirname(__file__), "test_data.json")) == get_data_object
