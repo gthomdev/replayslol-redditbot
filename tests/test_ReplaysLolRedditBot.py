@@ -3,7 +3,7 @@ import os
 
 import pytest
 from ReplaysLolRedditBot.Helpers import get_matches_from_link, is_submission_id_present_in_list_of_dictionaries, \
-    initialise_submissions
+    initialise_submissions, file_exists, file_is_empty
 
 
 @pytest.fixture
@@ -55,7 +55,7 @@ def test_should_return_false_if_submission_id_not_present_in_dictionary_keys(get
 
 
 def test_initialise_submissions_should_return_empty_array_if_file_doesnt_exist():
-    assert initialise_submissions("nonexistentfile.nerf") == []
+    assert initialise_submissions("nonexistentfile.txt") == []
 
 
 def test_initialise_submissions_should_return_empty_array_if_file_is_empty():
@@ -64,3 +64,19 @@ def test_initialise_submissions_should_return_empty_array_if_file_is_empty():
 
 def test_initialise_submissions_should_return_array_if_file_exists_and_is_not_empty(get_data_object):
     assert initialise_submissions(os.path.join(os.path.dirname(__file__), "test_data.json")) == get_data_object
+
+
+def test_file_is_empty_should_return_true_if_file_is_empty():
+    assert file_is_empty(os.path.join(os.path.dirname(__file__), "emptyfile.txt")) is True
+
+
+def test_file_is_empty_should_return_false_if_file_is_not_empty():
+    assert file_is_empty(os.path.join(os.path.dirname(__file__), "test_data.json")) is False
+
+
+def test_file_exists_should_return_true_if_file_exists():
+    assert file_exists(os.path.join(os.path.dirname(__file__), "test_data.json")) is True
+
+
+def test_file_is_empty_should_return_false_if_file_doesnt_exist():
+    assert file_exists("nonexistentfile.txt") is False
