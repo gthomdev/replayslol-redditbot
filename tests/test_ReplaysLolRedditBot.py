@@ -78,5 +78,9 @@ def test_file_exists_should_return_true_if_file_exists():
     assert file_exists(os.path.join(os.path.dirname(__file__), "test_data.json")) is True
 
 
+def test_file_exists_should_return_false_if_file_doesnt_exist():
+    assert file_exists(os.path.join(os.path.dirname(__file__), "nonexistentfile.txt")) is False
+
+
 def test_file_is_empty_should_return_false_if_file_doesnt_exist():
     assert file_exists("nonexistentfile.txt") is False
