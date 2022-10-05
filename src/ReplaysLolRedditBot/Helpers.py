@@ -44,7 +44,11 @@ def get_praw_client_from_config():
 
 
 def load_config(file_path):
-    configuration = yaml.safe_load(open(file_path))
+    try:
+        configuration = yaml.safe_load(open(file_path))
+    except FileNotFoundError:
+        logging.error("Config file not found")
+        raise
     return configuration
 
 
@@ -89,7 +93,10 @@ def initialise_submissions(submission_file_path):
 
 def get_reddit_configurations():
     reddit_config_directory = os.path.join(os.getcwd(), "config.yaml")
-    configuration = load_config(reddit_config_directory)
+    try:
+        configuration = load_config(reddit_config_directory)
+    except FileNotFoundError:
+        raise
     return (configuration['client']['target-subreddit'], configuration['client']['submission-limit'],
             configuration['client']['user-agent'], configuration['application']['scan-interval'])
 
