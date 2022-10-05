@@ -3,7 +3,7 @@ import os
 
 import pytest
 from ReplaysLolRedditBot.Helpers import get_matches_from_link, is_submission_id_present_in_list_of_dictionaries, \
-    initialise_submissions, file_exists, file_is_empty
+    initialise_submissions, file_exists, file_is_empty, load_config
 
 
 @pytest.fixture
@@ -84,3 +84,8 @@ def test_file_exists_should_return_false_if_file_doesnt_exist():
 
 def test_file_is_empty_should_return_false_if_file_doesnt_exist():
     assert file_exists("nonexistentfile.txt") is False
+
+
+def test_load_config_should_raise_exception_if_file_doesnt_exist():
+    with pytest.raises(FileNotFoundError):
+        load_config("nonexistentfile.yaml")
