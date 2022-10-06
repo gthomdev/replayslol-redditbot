@@ -89,3 +89,7 @@ def test_file_is_empty_should_return_false_if_file_doesnt_exist():
 def test_load_config_should_raise_exception_if_file_doesnt_exist():
     with pytest.raises(FileNotFoundError):
         load_config("nonexistentfile.yaml")
+
+
+def test_load_config_should_return_config_if_file_exists():
+    assert load_config(os.path.join(os.path.dirname(__file__), "test_config.yaml")) == {"test": "test"}
