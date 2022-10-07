@@ -93,3 +93,7 @@ def test_load_config_should_raise_exception_if_file_doesnt_exist():
 
 def test_load_config_should_return_config_if_file_exists():
     assert load_config(os.path.join(os.path.dirname(__file__), "test_config.yaml")) == {"test": "test"}
+
+
+def test_get_matches_from_link_should_return_none_if_link_doesnt_match_patterns():
+    assert get_matches_from_link("https://www.google.com") is None
