@@ -7,6 +7,7 @@ import yaml
 from dotenv import load_dotenv
 from datetime import datetime
 from bs4 import BeautifulSoup
+import requests
 from ReplaysLolRedditBot.Errors import SubmissionExistsException
 
 patterns = [
@@ -124,6 +125,7 @@ def get_links_for_subreddit(reddit, scraped_submissions, submission_file_path, s
                         json.dump(scraped_submissions, jsonfile, indent=4)
                     logging.info("Submission appended to Comments.json")
                     break
+    return scraped_submissions
 
 
 def file_exists(file_path):
@@ -132,3 +134,9 @@ def file_exists(file_path):
 
 def file_is_empty(file_path):
     return os.stat(file_path).st_size == 0
+
+
+def post_submissions_to_submission_api(submissions):
+    url = "http://localhost:8080/api/v1/comments/add"
+    response = requests.post(url, json=submissions)
+    logging.info("Response from submission API: " + str(response.status_code))
