@@ -138,5 +138,5 @@ def file_is_empty(file_path):
 
 def post_submissions_to_submission_api(submissions):
     url = "http://localhost:8080/api/v1/comments/add"
-    response = requests.post(url, json=submissions)
+    response = requests.post(url, json=submissions, headers={"Authorization": os.environ.get('RECORDER_API_KEY')})
     logging.info("Response from submission API: " + str(response.status_code))
