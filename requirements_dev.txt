@@ -3,6 +3,6 @@ tox==3.25.1
 pytest==7.1.2
 pytest-cov==3.0.0
 pyyaml==6.0
-praw==7.6.0
+praw==7.7.0
 python-dotenv==0.20.0
 requests==2.28.1
