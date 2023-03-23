@@ -1,7 +1,7 @@
 ---
 reddit_client:
-  target-subreddit: "leagueoflegends"
-  submission-limit: 4000
+  target-subreddit: "testingground4bots"
+  submission-limit: 1000
   user-agent: "replays-lol-reddit-client"
 function:
   scan-interval: 60
