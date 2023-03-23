@@ -7,5 +7,4 @@ print(f"Config Loaded: {config}")
 credentials = Credentials()
 print(f"Credentials Loaded: {credentials}")
 scraper = ScraperFunction(config, credentials)
-
 scraper.run()
