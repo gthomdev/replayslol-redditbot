@@ -1,5 +1,5 @@
 import praw
-from replays_lol_reddit_scraper.ExtendedRedditSubmission import ExtendedRedditSubmission
+from ExtendedRedditSubmission import ExtendedRedditSubmission
 import pika
 
 

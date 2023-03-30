@@ -1,6 +1,6 @@
 ---
 reddit_client:
-  target-subreddit: "testingground4bots"
+  target-subreddit: "leagueoflegends"
   submission-limit: 1000
   user-agent: "replays-lol-reddit-client"
 function:
