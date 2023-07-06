@@ -9,3 +9,4 @@ class Credentials:
         self.client_secret = os.environ.get('REDDIT_CLIENT_SECRET')
         self.username = os.environ.get('REDDIT_USERNAME')
         self.password = os.environ.get('REDDIT_PASSWORD')
+        self.postgres_connection_string = os.environ.get('POSTGRES_URL')
