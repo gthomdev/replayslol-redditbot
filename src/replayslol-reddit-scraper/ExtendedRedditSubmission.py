@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from functools import cached_property
 import json
 
+
 class ExtendedRedditSubmission:
     def __init__(self, submission):
         self.submission = submission
@@ -22,6 +23,7 @@ class ExtendedRedditSubmission:
             return self._extract_links()
         else:
             return []
+
     @cached_property
     def region(self):
         return self._extract_region()
@@ -29,6 +31,7 @@ class ExtendedRedditSubmission:
     @cached_property
     def subreddit(self):
         return self.subreddit
+
     @cached_property
     def summoner(self):
         return self._extract_summoner()
@@ -37,6 +40,7 @@ class ExtendedRedditSubmission:
     def match_history_link(self):
         return self._extract_match_history_link()
 
+# Solution here - delegate the extraction to a separate factory which you can pass the links and the component you want to extract and it will call the relevant function and return the relevant item
     def _extract_region(self):
         patterns = [
             r"https:\/\/www\.op\.gg\/summoners\/((?:euw|na|kr|oce|jp|br|eune|las|lan|tr|ru|sg|ph|tw|vn|th)[\/])",
@@ -69,10 +73,11 @@ class ExtendedRedditSubmission:
             return None
 
     def _extract_match_history_link(self):
-        patterns = [r"https:\/\/www\.op\.gg\/summoners\/(euw|na|kr|oce|jp|br|eune|las|lan|tr|ru|sg|ph|tw|vn|th)\/([^\/]+)",
-                    r"https:\/\/(euw|na|kr|oce|jp|br|eune|las|lan|tr|ru|sg|ph|tw|vn|th)\.op\.gg\/summoners\/.+",
-                    r"https:\/\/u\.gg\/lol\/profile\/(euw1|na1|kr1|oce1|jp1|br1|eune1|las1|lan1|tr1|ru1|sg1|ph1|tw1|vn1|th1|euw2|na2|kr2|oce2|jp2|br2|eune2|las2|lan2|tr2|ru2|sg2|ph2|tw2|vn2|th2)\/([^\/]+)(?:\/overview)?",
-                    r"https:\/\/blitz\.gg\/lol\/profile\/\w+\/([^\/]+)"]
+        patterns = [
+            r"https:\/\/www\.op\.gg\/summoners\/(euw|na|kr|oce|jp|br|eune|las|lan|tr|ru|sg|ph|tw|vn|th)\/([^\/]+)",
+            r"https:\/\/(euw|na|kr|oce|jp|br|eune|las|lan|tr|ru|sg|ph|tw|vn|th)\.op\.gg\/summoners\/.+",
+            r"https:\/\/u\.gg\/lol\/profile\/(euw1|na1|kr1|oce1|jp1|br1|eune1|las1|lan1|tr1|ru1|sg1|ph1|tw1|vn1|th1|euw2|na2|kr2|oce2|jp2|br2|eune2|las2|lan2|tr2|ru2|sg2|ph2|tw2|vn2|th2)\/([^\/]+)(?:\/overview)?",
+            r"https:\/\/blitz\.gg\/lol\/profile\/\w+\/([^\/]+)"]
         for pattern in patterns:
             for link in self.links:
                 match = re.search(pattern, link)

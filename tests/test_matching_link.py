@@ -9,7 +9,7 @@ def has_matching_link(links, list_of_patterns):
 
 
 patterns = [
-    "https?://(?:www\.)?(?:(?:euw|na|kr|oce|jp|br|eune|las|lan|tr|ru|sg|ph|tw|vn|th)\\.)?op\\.gg/summoner(s)?/(?:euw|na|kr|oce|jp|br|eune|las|lan|tr|ru|sg|ph|tw|vn|th)?/(.{3,16})",
+    "https?://(?:www\.)?(?:(?:euw|na|kr|oce|jp|br|eune|las|lan|tr|ru|sg|ph|tw|vn|th)\.)?op\.gg/summoner(s)?/(?:euw|na|kr|oce|jp|br|eune|las|lan|tr|ru|sg|ph|tw|vn|th)?/(.{3,16})",
     "https?://u.gg/lol/profile/(euw1|na1|kr1|oce1|jp1|br1|eune1|las1|lan1|tr1|ru1|sg1|ph1|tw1|vn1|th1|euw2|na2|kr2|oce2|jp2|br2|eune2|las2|lan2|tr2|ru2|sg2|ph2|tw2|vn2|th2|euw|na|kr|oce|jp|br|eune|las|lan|tr|ru|sg|ph|tw|vn|th)/(.{3,16})(?:/overview)?",
     "https?://blitz.gg/lol/profile/(euw1|na1|kr1|oce1|jp1|br1|eune1|las1|lan1|tr1|ru1|sg1|ph1|tw1|vn1|th1|euw2|na2|kr2|oce2|jp2|br2|eune2|las2|lan2|tr2|ru2|sg2|ph2|tw2|vn2|th2|euw|na|kr|oce|jp|br|eune|las|lan|tr|ru|sg|ph|tw|vn|th)/(.{3,16})/?"]
 
@@ -56,6 +56,7 @@ class MatchingLinksTestCases(unittest.TestCase):
 
     def test_en_us(self):
         self.assertEqual(True, has_matching_link([en_us_link], patterns))
+
 
 if __name__ == '__main__':
     unittest.main()
