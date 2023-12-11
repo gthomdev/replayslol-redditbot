@@ -1,4 +1,4 @@
-from RedditScraper import RedditScraper
+from reddit_scraper import RedditScraper
 from time import sleep
 import time
 from datetime import datetime

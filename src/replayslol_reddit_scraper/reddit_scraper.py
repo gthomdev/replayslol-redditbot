@@ -1,5 +1,5 @@
 import praw
-from ExtendedRedditSubmission import ExtendedRedditSubmission
+from extended_reddit_submission import ExtendedRedditSubmission
 import pika
 import psycopg2
 from psycopg2 import sql
