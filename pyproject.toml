@@ -7,4 +7,3 @@ testpaths = [
     "tests",
     ]
 
-addopts = "--cov=ReplaysLolRedditBot"
