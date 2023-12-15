@@ -18,18 +18,24 @@ MATCH_HISTORY_PATTERNS = [
     r"https:\/\/u\.gg\/lol\/profile\/(euw1|na1|kr1|oce1|jp1|br1|eune1|las1|lan1|tr1|ru1|sg1|ph1|tw1|vn1|th1|euw2|na2|kr2|oce2|jp2|br2|eune2|las2|lan2|tr2|ru2|sg2|ph2|tw2|vn2|th2)\/([^\/]+)(?:\/overview)?",
     r"https:\/\/blitz\.gg\/lol\/profile\/\w+\/([^\/]+)"]
 
+TARGET_URL_PATTERNS = [
+    r"https?:\/\/(?:www\.)?(?:(?:euw|na|kr|oce|jp|br|eune|las|lan|tr|ru|sg|ph|tw|vn|th)\.)?op\.gg/summoner(s)?/(?:euw|na|kr|oce|jp|br|eune|las|lan|tr|ru|sg|ph|tw|vn|th)?/(.{3,16})",
+    r"https?:\/\/u\.gg\/lol/profile/(euw1|na1|kr1|oce1|jp1|br1|eune1|las1|lan1|tr1|ru1|sg1|ph1|tw1|vn1|th1|euw2|na2|kr2|oce2|jp2|br2|eune2|las2|lan2|tr2|ru2|sg2|ph2|tw2|vn2|th2|euw|na|kr|oce|jp|br|eune|las|lan|tr|ru|sg|ph|tw|vn|th)/(.{3,16})(?:/overview)?",
+    r"https?:\/\/blitz\.gg\/lol\/profile\/(euw1|na1|kr1|oce1|jp1|br1|eune1|las1|lan1|tr1|ru1|sg1|ph1|tw1|vn1|th1|euw2|na2|kr2|oce2|jp2|br2|eune2|las2|lan2|tr2|ru2|sg2|ph2|tw2|vn2|th2|euw|na|kr|oce|jp|br|eune|las|lan|tr|ru|sg|ph|tw|vn|th)/(.{3,16})/?"]
+
 
 class URLElementExtractor:
-    def __init__(self):
-        self.region_patterns = [re.compile(pattern) for pattern in REGION_PATTERNS]
-        self.summoner_patterns = [re.compile(pattern) for pattern in SUMMONER_PATTERNS]
-        self.match_history_link_patterns = [re.compile(pattern) for pattern in MATCH_HISTORY_PATTERNS]
+    region_patterns = [re.compile(pattern) for pattern in REGION_PATTERNS]
+    summoner_patterns = [re.compile(pattern) for pattern in SUMMONER_PATTERNS]
+    match_history_link_patterns = [re.compile(pattern) for pattern in MATCH_HISTORY_PATTERNS]
+    target_url_patterns = [re.compile(pattern) for pattern in TARGET_URL_PATTERNS]
 
-    def extract_region(self, urls):
+    @staticmethod
+    def extract_region(urls):
         if isinstance(urls, str):
             urls = [urls]
 
-        for pattern in self.region_patterns:
+        for pattern in URLElementExtractor.region_patterns:
             for url in urls:
                 match = re.search(pattern, url)
                 if match:
@@ -37,11 +43,12 @@ class URLElementExtractor:
                     return matched_string.rstrip('12')  # Removing trailing 1 or 2 if present
         return None
 
-    def extract_summoner(self, urls):
+    @staticmethod
+    def extract_summoner(urls):
         if isinstance(urls, str):
             urls = [urls]
 
-        for pattern in self.summoner_patterns:
+        for pattern in URLElementExtractor.summoner_patterns:
             for url in urls:
                 match = re.search(pattern, url)
                 if match:
@@ -49,14 +56,23 @@ class URLElementExtractor:
         else:
             return None
 
-    def extract_match_history_link(self, urls):
+    @staticmethod
+    def extract_match_history_link(urls):
         if isinstance(urls, str):
             urls = [urls]
 
-        for pattern in self.match_history_link_patterns:
+        for pattern in URLElementExtractor.match_history_link_patterns:
             for url in urls:
                 match = re.search(pattern, url)
                 if match:
                     return url
         else:
             return None
+
+    @staticmethod
+    def has_matching_link(urls):
+        if isinstance(urls, str):
+            urls = [urls]
+        return any(
+            any(re.search(pattern, url) for pattern in URLElementExtractor.target_url_patterns)
+            for url in urls)

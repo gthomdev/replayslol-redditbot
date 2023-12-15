@@ -18,7 +18,6 @@ class RedditScraper:
             username=credentials.username,
             password=credentials.password
         )
-        self.patterns = config['function']['patterns']
         self.checked_submissions = set()
         self.published_submissions = set()
         self.summoners_on_cooldown = set()
@@ -69,7 +68,7 @@ class RedditScraper:
             if submission.id not in self.checked_submissions and submission.id not in self.published_submissions and submission.summoner not in self.summoners_on_cooldown:
                 self.checked_submissions.add(submission.id)
                 self.summoners_on_cooldown.add(submission.summoner)
-                if submission.has_matching_link(self.patterns):
+                if submission.has_matching_link():
                     print(f"Found matching submission: {submission.url}")
                     yield submission
 
