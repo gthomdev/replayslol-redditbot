@@ -1,6 +1,6 @@
-from ScraperFunction import ScraperFunction
-from Helpers import load_config
-from Credentials import Credentials
+from scraper_function import ScraperFunction
+from helpers import load_config
+from credentials import Credentials
 
 config = load_config("config.yaml")
 print(f"Config Loaded: {config}")

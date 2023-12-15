@@ -1,10 +1,11 @@
 import praw
-from ExtendedRedditSubmission import ExtendedRedditSubmission
+from extended_reddit_submission import ExtendedRedditSubmission
 import pika
 import psycopg2
 from psycopg2 import sql
 import time
 from datetime import datetime, timedelta
+
 
 class RedditScraper:
     def __init__(self, config, credentials):
@@ -17,7 +18,6 @@ class RedditScraper:
             username=credentials.username,
             password=credentials.password
         )
-        self.patterns = config['function']['patterns']
         self.checked_submissions = set()
         self.published_submissions = set()
         self.summoners_on_cooldown = set()
@@ -51,6 +51,7 @@ class RedditScraper:
                 cursor.close()
             if connection is not None:
                 connection.close()
+
     def scrape_submissions(self, maximum_age=1200):
         current_time = time.time()
         for subreddit in self.subreddits:
@@ -58,15 +59,16 @@ class RedditScraper:
             try:
                 for submission in self.reddit.subreddit(subreddit).new(limit=self.submission_limit):
                     if current_time - submission.created_utc <= maximum_age:
-                     yield ExtendedRedditSubmission(submission)
+                        yield ExtendedRedditSubmission(submission)
             except Exception as e:
                 print(f"Error scraping subreddit {subreddit}: {e}")
+
     def validate_submissions(self):
         for submission in self.scrape_submissions():
             if submission.id not in self.checked_submissions and submission.id not in self.published_submissions and submission.summoner not in self.summoners_on_cooldown:
                 self.checked_submissions.add(submission.id)
                 self.summoners_on_cooldown.add(submission.summoner)
-                if submission.has_matching_link(self.patterns):
+                if submission.has_matching_link():
                     print(f"Found matching submission: {submission.url}")
                     yield submission
 
@@ -110,13 +112,14 @@ class RedditScraper:
                             raise exception
                         # Insert the submission into the database
                         insert_query = "INSERT INTO reddit_comments (subreddit, region, summoner_name, submission_id, link, reddit_link) VALUES (%s, %s, %s, %s, %s, %s)"
-                        values = (submission.subreddit, submission.region, submission.summoner, submission.id, submission.match_history_link, submission.url)
+                        values = (submission.subreddit, submission.region, submission.summoner, submission.id,
+                                  submission.match_history_link, submission.url)
                         cursor.execute(insert_query, values)
                         print(f'Submission has subreddit: {submission.subreddit}')
                         print(f"Published submission {submission.id} to database.")
                         self.published_submissions.add(submission.id)
                 except Exception as e:
-                            print(f"Error inserting submission {submission.id} to database: {e}")
+                    print(f"Error inserting submission {submission.id} to database: {e}")
                 # Commit the transaction to persist the changes
                 connection.commit()
 
