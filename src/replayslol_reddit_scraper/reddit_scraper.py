@@ -26,7 +26,7 @@ class RedditScraper:
         connection = None
         cursor = None
         try:
-            connection = psycopg2.connect(connection_string)
+            connection = self.get_database_connection(connection_string)
             cursor = connection.cursor()
             interval = datetime.now() - timedelta(hours=24)
             query = sql.SQL("""SELECT submission_id FROM reddit_comments WHERE created_at >= %s""")
@@ -96,7 +96,7 @@ class RedditScraper:
         cursor = None
 
         try:
-            connection = psycopg2.connect(connection_string)
+            connection = self.get_database_connection(connection_string)
             cursor = connection.cursor()
             for submission in self.validate_submissions():
                 try:
@@ -134,3 +134,16 @@ class RedditScraper:
                 cursor.close()
             if connection is not None:
                 connection.close()
+
+    @staticmethod
+    def get_database_connection(connection_string, retries=5, delay=5):
+        attempts = 0
+        while attempts < retries:
+            try:
+                connection = psycopg2.connect(connection_string)
+                return connection
+            except Exception as e:
+                print(f"Error connecting to the database: {e}")
+                attempts += 1
+                time.sleep(delay)
+        raise Exception(f"Could not connect to the database after {retries} attempts.")
